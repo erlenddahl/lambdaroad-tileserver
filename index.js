@@ -17,25 +17,28 @@ var strata = tilestrata();
 	I tillegg: alle ST_Transform(${lyr.table}.${lyr.geometry} må endrast til ST_Transform(ST_Force2D(${lyr.table}.${lyr.geometry}) for å unngå "lwcollection_construct: mixed dimension geometries: 2/0"
 */
 
-strata.layer('roadnetwork').route('tile.mvt')
-  .use(postgismvt({
-    lyr: {
-		table: 'linksegments_tile',
-		geometry: 'geometrywgs84',
-		type: 'LINESTRING',
-		srid: 4326,
-		minZoom: 3,
-		maxZoom: 19,
-		buffer: 10,
-		fields: 'id',
-		resolution: 256,
-    },
-    pgConfig: {
-	    ...config.db,
-		max: 20,
-		idleTimeoutMillis: 30000,
-		connectionTimeoutMillis: 2000
-	}}));
+strata
+	.layer('roadnetwork')
+	.route('tile.mvt')
+  	.use(postgismvt({
+	    lyr: {
+			table: 'linksegments_tile',
+			geometry: 'geometrywgs84',
+			type: 'LINESTRING',
+			srid: 4326,
+			minZoom: 3,
+			maxZoom: 19,
+			buffer: 10,
+			fields: 'id',
+			resolution: 256,
+	    },
+	    pgConfig: {
+		    ...config.roadNetworkDb,
+			max: 20,
+			idleTimeoutMillis: 30000,
+			connectionTimeoutMillis: 2000
+		}}));
+
 
 module.exports = {
 	init: function(app){
