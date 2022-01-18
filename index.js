@@ -14,6 +14,7 @@ var strata = tilestrata();
 
 	https://github.com/mapbox/postgis-vt-util/blob/master/src/TileBBox.sql
 	postgismvt må modifiserast ved å oppgradere pg-dependency til nyaste versjon, og flytte parameter q i ST_AsMvt til starten.
+	I tillegg: alle ST_Transform(${lyr.table}.${lyr.geometry} må endrast til ST_Transform(ST_Force2D(${lyr.table}.${lyr.geometry}) for å unngå "lwcollection_construct: mixed dimension geometries: 2/0"
 */
 
 strata.layer('roadnetwork').route('tile.mvt')
