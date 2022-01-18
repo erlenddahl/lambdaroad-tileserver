@@ -39,6 +39,27 @@ strata
 			connectionTimeoutMillis: 2000
 		}}));
 
+strata
+	.layer('roadtraffic')
+	.route('tile.mvt')
+  	.use(postgismvt({
+	    lyr: {
+			table: 'map_traffic',
+			geometry: 'geometrywgs84',
+			type: 'LINESTRING',
+			srid: 4326,
+			minZoom: 3,
+			maxZoom: 19,
+			buffer: 10,
+			fields: 'id',
+			resolution: 256,
+	    },
+	    pgConfig: {
+		    ...config.roadTrafficDb,
+			max: 20,
+			idleTimeoutMillis: 30000,
+			connectionTimeoutMillis: 2000
+		}}));
 
 module.exports = {
 	init: function(app){
